@@ -1,0 +1,27 @@
+{% load static %}
+<div class="container">
+    <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+        <div class="col-md-4 d-flex align-items-center">
+            <a href="/" class="mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1">
+                <svg class="bi" width="30" height="24">
+                    <use xlink:href="#bootstrap"></use>
+                </svg>
+            </a>
+            <span class="text-muted">© 2021 Company, Inc</span>
+        </div>
+
+        <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
+            <li class="ms-3"><a href="https://www.linkedin.com/in/muhammad-rizwan-5b202817a/">
+                    <img src="{% static 'blog/img/linkedin_logo_icon.png' %}" alt="linkedin" height="30px" width="30px" class="rounded-circle"></a></li>
+            <li class="ms-3"><a href="https://github.com/rizwanch786">
+                    <img src="{% static 'blog/img/github_icon.png' %}" alt="github_icon" height="30px" width="32px" class="rounded-circle"></a>
+            </li>
+            <li class="ms-3"><a href="#">
+                    <img src="{% static 'blog/img/facebook logo_icon.png' %}" alt="facebook" height="30px" width="30px" class="rounded-circle"></a>
+            </li>
+            <li class="ms-3"><a href="#">
+                <img src="{% static 'blog/img/twitter_logo_icon.png' %}" alt="twitter_icon" height="30px" width="30px" class="rounded-circle"></a>
+        </li>
+        </ul>
+    </footer>
+</div>

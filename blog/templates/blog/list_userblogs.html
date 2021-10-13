@@ -1,0 +1,33 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+{% block title %}list{% endblock title %}
+{% block msg %} {% endblock msg %}
+{% block side %} {% endblock side %}
+{% block content %}
+<h1 class="mb-3">Posts By {{request.user.username|capfirst}} ({{ page_obj.paginator.count }})</h1>    {% if messages %}
+    {% for message in messages %}
+    <p {% if message.tags%} class="alert alert-{{message.tags}} mb-5" {% endif %}>{{message}}</p>
+    {% endfor %}
+    {% endif %}
+    {% for p in posts%}
+    <article class="media content-section">
+    <div class="col-sm-10 my-2">
+        <div class="h-180 p-5 bg-light border rounded-3">
+            <h2>{{p.title}}</h2>
+            <strong class="d-inline-block mb-2 text-primary">{{p.author|capfirst}}</strong>
+            <div class="mb-1 text-muted">{{p.published_date}}</div>
+            <p>{{p.content|slice:"0:150"|safe}}......</p>
+            <div class="form-row">
+                <a class="btn btn-outline-secondary" href="{% url 'PostDetail' p.id %}">Read More</a>
+            {%if p.visible == True%}
+            <strong class="d-inline-block mb-2 text-primary mx-5 visible" style="float: right;">publish</strong>
+            {%else%}
+            <strong class="d-inline-block mb-2 text-primary mx-5 visible" style="float: right;">unpublish</strong>
+            {%endif%}
+            </div>
+        </div>
+    </div>
+    </article>
+    {%endfor%}
+</div>
+{% endblock content %}

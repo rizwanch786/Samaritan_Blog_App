@@ -1,0 +1,110 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+{% block title %}Deshboard{% endblock title %}
+{% block msg %} {% endblock msg %}
+{% block side %} {% endblock side %}
+{% block content %}
+<div class="container my-5">
+    <center>
+        <h3>Deshboard</h3>
+    </center>
+    <div class="row">
+        <h3>Welcome <span class="text-capitalize">{{request.user}}</span></h3>
+        <p>{{user}}</p>
+        <div class="col-sm-2 border-end">
+            <a href="{% url 'PostCreateView' %}" class="btn btn-primary my-2">Create Post</a>
+            {%if request.user.is_superuser%}
+            <div class="dropdown">
+                <a class="btn btn-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    Users List
+                </a>
+
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    {%for user in users%}
+
+                    <li><a class="dropdown-item" href="{% url 'blog-list' user %}">{{user|capfirst}}</a></li>
+                    {%endfor%}
+
+                </ul>
+            </div>
+            {%endif%}
+        </div>
+
+        <div class="col-sm-8 offset-sm-1">
+            {% if messages %}
+            {% for message in messages %}
+            <p {% if message.tags%} class="alert alert-{{message.tags}} mb-5" {% endif %}>{{message}}</p>
+            {% endfor %}
+            {% endif %}
+            <table class="table">
+                <tr>
+                    <th>Title</th>
+                    <th>Content</th>
+                    <th>Action</th>
+                </tr>
+                {% for p in page_obj%}
+                <tr>
+                    <td>{{p.title}}</td>
+                    <td>{{p.content|slice:"0:100"|safe}}...</td>
+                    <td align="center">
+                        <div class="row">
+                            <div class="col-5">
+                                <a href="{% url 'PostEditView' p.id %}">
+                                    <img src="{% static 'blog/img/edit_icon.png' %}" alt="EDIT" height="25px"
+                                        width="25px">
+                                </a>
+                            </div>
+                            <div class="col-5">
+                                <a href="{% url 'delete' p.id %}">
+                                    <img src="{% static 'blog/img/delete_garbage_trash_icon.png' %}" alt="DELETE"
+                                        height="30px" width="30px"></a>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="row">
+                            <div class="col-5">
+                                <a href="{% url 'PostDetail' p.id %}">
+                                    <img src="{% static 'blog/img/public_visible_watch_icon.png' %}" alt="View"
+                                        height="30px" width="30px"></a>
+                            </div>
+
+                            <div class="col-5">
+                                {%if p.visible == True%}
+                                <small class="text-danger">publish</small>
+                                {%else%}
+                                <!-- <small class="text-danger">unpublish</small> -->
+                                    <a href="{% url 'ApprovePost' p.id%}">Approve</a>
+                                {%endif%}
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                {%endfor%}
+
+            </table>
+
+            {% if page_obj.has_previous %}
+            <a class="btn btn-outline-info mb-4" href="?page=1">First</a>
+            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+            {% endif %}
+
+            {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+            <a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
+            {% elif num > page_obj.number|add:'-2' and num < page_obj.number|add:'2' %} <a
+                class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
+
+                {% endif %}
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
+                <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+                {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

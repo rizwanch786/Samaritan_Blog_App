@@ -1,0 +1,108 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+{% block title %}Post Detail{% endblock title %}
+{% block msg %} {% endblock msg %}
+{% block side %} {% endblock side %}
+{% block content %}
+
+<a class="btn btn-primary my-3" href="{% url 'home' %}"> Go back </a>
+<div class="container">
+        <div class="row" style="margin-right: 1%; margin-left: 1%;">
+            {% if messages %}
+    {% for message in messages %}
+    <p {% if message.tags%} class="alert alert-{{message.tags}}" {% endif %}>{{message}}</p>
+    {% endfor %}
+    {% endif %}
+
+        <div class="col">
+            <!-- Title -->
+            <h1 class="mt-4">{{post.title}}</h1>
+
+            <!-- Author -->
+            <p class="lead">
+                by {{ post.author}}
+            </p>
+
+            <hr>
+
+            <!-- Date/Time -->
+            <p>Posted on {{post.published_date}}</p>
+
+            <hr>
+
+            <p>
+                {{ post.content|safe }}
+            </p>
+            <br />
+
+            <!-- Go Back -->
+            <div class="text-center">
+
+                {% if post.author == request.user and not post.locked or request.user.is_superuser %}
+                <a class="btn btn-primary mb-2" href="{% url 'PostEditView' post.id %}"> Edit Post</a>
+                <a class="btn btn-danger mb-2" href="{% url 'delete' post.id %}"> Delete Post</a>
+                {% endif %}
+            </div>
+            <!-- Comments -->
+            <div class="container">
+                <h2> Comments ({{comments.count}}) </h2>
+                <div class="my-2">
+                    {% if user.is_authenticated %}
+                    <form action="{% url 'postComment' %}" method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Post Comment </label>
+                            <textarea type="text" class="form-control" name="comment"
+                                placeholder="Enter comment here"></textarea>
+                        </div>
+                        <input type="hidden" name="postSno" value="{{post.id}}">
+                        <input type="hidden" name="parentSno" value="">
+                        <button type="submit" class="btn btn-primary my-3">Submit</button>
+                    </form>
+                    {% else %}
+                    Please login to post a comment
+                    {% endif %}
+                </div>
+                {% for comment in comments %}
+                <div class="row my-3">
+                    <div class="col-md-1  ">
+                        <img class="rounded mx-auto d-block w-100 border border-dark p-2" src="/static/img/user.png"
+                            alt="user">
+                    </div>
+                    <div class="col-5 ">
+                        <b> {{comment.author}} </b> <span
+                            class="badge badge-secondary text-black">{{comment.timestamp}}</span>
+                        <div>{{comment.comment}}</div>
+                        
+                    </div>
+                    <div class="col">
+                        <ul class="list-group list-group-horizontal">
+                            <li class="list-group-item">
+                            <button href="#" class="btn">
+                            <i class="fa fa-trash"></i>
+                            <img src="{% static 'blog/img/edit_icon.png' %}" alt="EDIT" height="20px" width="20px">
+                        </i>
+                        </button>
+                        </li>
+                        <li class="list-group-item">
+                        <form action="{% url 'comment-delete' comment.sno %}" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="post_id" value="{{ post.id }}" />
+                            <button type="submit" class="btn">
+                                <i class="fa fa-trash">
+                                    <img src="{% static 'blog/img/delete_garbage_trash_icon.png' %}" alt="DELETE"
+                                    height="25px" width="25px">
+                                </i>
+                                </button>
+                        </form>
+                    </li>
+                    </ul>
+                    </div>
+                </div>
+                
+                {%endfor%}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

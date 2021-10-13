@@ -1,0 +1,10 @@
+asgiref==3.4.1
+Django==3.2.8
+django-ckeditor==6.1.0
+django-crispy-forms==1.13.0
+django-js-asset==1.2.2
+django-summernote==0.8.11.6
+djangorestframework==3.12.4
+Pillow==8.3.2
+pytz==2021.3
+sqlparse==0.4.2
