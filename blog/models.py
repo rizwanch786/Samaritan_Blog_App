@@ -10,7 +10,7 @@ class Post(models.Model):
     visible = models.BooleanField(default=False)
 
     def __str__(self):
-        return str(self.id) + " "+ self.title
+        return self.title
 
 class PostComment(models.Model):
     sno= models.AutoField(primary_key=True)
@@ -18,3 +18,6 @@ class PostComment(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     post=models.ForeignKey(Post, on_delete=models.CASCADE)
     timestamp= models.DateTimeField(default=timezone.now)
+    
+    def __str__(self):
+        return str(self.post)
