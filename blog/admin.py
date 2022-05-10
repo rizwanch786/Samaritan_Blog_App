@@ -10,8 +10,10 @@ class PostModelAdmin(admin.ModelAdmin):
     # # # Hide fields
     # exclude = ('title',)
     
+    # readonly
+    readonly_fields = ('logo',)
     # Display fields
-    list_display = ('id', 'title', 'less_content', 'click_me','visible')
+    list_display = ('id', 'title', 'less_content', 'logo', 'click_me','visible')
     
     # # Link other fields to make clickable
     # list_display_links = ('id', 'title', 'less_content', 'click_me', 'visible')
@@ -39,7 +41,9 @@ class PostModelAdmin(admin.ModelAdmin):
         # open specific blog after button click
         return format_html(f'<a href="/admin/blog/post/{obj.id}" class="button button5">View</a>')
 
-    
+    # Image Preview
+    def logo(self, obj):
+        return format_html(f'<img src="/media/{obj.upload}" style="height:50px; width:50px"')
     
     
     
@@ -58,3 +62,6 @@ class PostModelAdmin(admin.ModelAdmin):
     def click_me(self, obj):
         # open specific blog after button click
         return format_html(f'<a href="/admin/blog/postcomment/{obj.sno}" class="button button5">View</a>')
+    
+    # # Change position of save button
+    # save_on_top = True

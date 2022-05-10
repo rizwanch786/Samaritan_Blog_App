@@ -35,6 +35,10 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'blog',
     'rest_framework',
+    "admin_interface",
+    # "flat_responsive", # only if django version < 2.0
+    # "flat", # only if django version < 1.9
+    "colorfield",
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -140,3 +144,4 @@ MEDIA_URL = '/media/'
 # Email Settings
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
