@@ -141,7 +141,14 @@ MEDIA_URL = '/media/'
 
 
 
-# Email Settings
+# # Email Settings
+# # Console 
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
+# Send token through mail 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'rizwangcsit@gmail.com'
+EMAIL_HOST_PASSWORD = 'fuocdndkyzymfvob'

@@ -65,3 +65,6 @@ class PostModelAdmin(admin.ModelAdmin):
     
     # # Change position of save button
     # save_on_top = True
+    
+    
+admin.site.register(Profile)
