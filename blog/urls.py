@@ -2,6 +2,7 @@ from django.urls import path,include
 from blog import views
 from django.contrib.auth import logout, views as auth_views
 from .forms import *
+
 urlpatterns = [
     path('', views.index, name='home'),
     path('post/<int:pk>', views.PostDetail, name='PostDetail'),
