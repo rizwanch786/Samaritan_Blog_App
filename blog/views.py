@@ -39,9 +39,7 @@ def deshboard(request):
         page_obj = paginator.get_page(page)
         if request.user.is_superuser:
             all_users = User.objects.values()
-            users = []
-            for user in range(0, len(all_users)):
-                users.append(all_users[user]['username'])
+            users = [all_users[user]['username'] for user in range(len(all_users))]
             return render(request, 'blog/dashboard.html', {'post':post, 'page_obj':page_obj, 'user':'Admin', 'users':users})
         else:
             post = Post.objects.filter(author = request.user).order_by('published_date').reverse()
@@ -176,14 +174,11 @@ def CommentDelete(request, pk):
         post= Post.objects.get(id=post_id)
         comment = PostComment.objects.get(sno = pk)
         print(comment.author)
-        if comment.author == request.user:
+        if comment.author == request.user or request.user.is_superuser:
             comment.delete()
-            return redirect(f'/post/{post.id}')
-        elif request.user.is_superuser:
-            comment.delete()
-            return redirect(f'/post/{post.id}')
         else:
             messages.warning(request, 'Author not delete other Comments')
-            return redirect(f'/post/{post.id}')
+
+        return redirect(f'/post/{post.id}')
 
 
